@@ -5,6 +5,7 @@ val koin_ktor: String by project
 val ktorm_version: String by project
 val postgresql_driver_version: String by project
 val commons_codec_version: String by project
+val kmongo_version: String by project
 
 plugins {
     application
@@ -47,11 +48,9 @@ dependencies {
     implementation("io.insert-koin:koin-ktor:$koin_ktor")
     implementation("io.insert-koin:koin-logger-slf4j:$koin_ktor")
 
-    // Ktorm
-    implementation("org.ktorm:ktorm-core:$ktorm_version")
-    implementation("org.ktorm:ktorm-support-postgresql:$ktorm_version")
-    implementation("org.postgresql:postgresql:$postgresql_driver_version")
-    implementation("org.ktorm:ktorm-jackson:$ktorm_version")
+    // Kmongo
+    implementation("org.litote.kmongo:kmongo:$kmongo_version")
+    implementation("org.litote.kmongo:kmongo-coroutine:$kmongo_version")
 
     // Codec
     implementation("commons-codec:commons-codec:$commons_codec_version")

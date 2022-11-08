@@ -1,5 +1,6 @@
 package com.silverbullet.di
 
+import com.silverbullet.feature_user.service.UserService
 import com.silverbullet.security.hashing.HashingService
 import com.silverbullet.security.hashing.SHA256HashingService
 import com.silverbullet.security.token.TokenService
@@ -16,4 +17,7 @@ val servicesModule = module {
         SHA256HashingService()
     }
 
+    single {
+        UserService(get())
+    }
 }
