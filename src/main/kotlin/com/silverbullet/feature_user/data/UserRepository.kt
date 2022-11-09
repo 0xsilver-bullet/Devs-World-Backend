@@ -1,5 +1,7 @@
 package com.silverbullet.feature_user.data
 
+import com.silverbullet.feature_user.data.entity.UserEntity
+
 interface UserRepository {
 
     /**
@@ -15,6 +17,8 @@ interface UserRepository {
         email: String,
         password: String
     ): LoginResult
+
+    suspend fun getUserById(id: String): UserEntity?
 
     enum class CreateUserResult {
         SUCCESS,

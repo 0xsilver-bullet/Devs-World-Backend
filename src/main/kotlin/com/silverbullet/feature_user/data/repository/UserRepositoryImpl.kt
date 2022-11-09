@@ -56,4 +56,9 @@ class UserRepositoryImpl(
         else
             UserRepository.LoginResult.WrongCredentials
     }
+
+    override suspend fun getUserById(id: String): UserEntity? {
+        return usersCollection
+            .findOneById(id)
+    }
 }

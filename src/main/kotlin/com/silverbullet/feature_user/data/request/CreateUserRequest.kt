@@ -8,3 +8,5 @@ data class CreateUserRequest(
     val username: String,
     val password: String
 )
+
+fun CreateUserRequest.hasBlankField() = email.isBlank() || username.isBlank() || password.isBlank()

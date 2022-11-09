@@ -2,7 +2,9 @@ package com.silverbullet.feature_user.route
 
 import com.silverbullet.feature_user.data.UserRepository
 import com.silverbullet.feature_user.data.request.CreateUserRequest
+import com.silverbullet.feature_user.data.request.hasBlankField
 import com.silverbullet.feature_user.service.UserService
+import com.silverbullet.utils.ApiResponses
 import com.silverbullet.utils.failureBasicResponse
 import com.silverbullet.utils.parsingFailureResponse
 import com.silverbullet.utils.successfulBasicResponse
@@ -21,6 +23,13 @@ fun Route.createUserRoute() {
             call.receive<CreateUserRequest>()
         }.apply {
             onSuccess { request: CreateUserRequest ->
+                if(request.hasBlankField()){
+                    call.failureBasicResponse<Unit>(
+                        statusCode = HttpStatusCode.BadRequest,
+                        message = ApiResponses.FIELDS_EMPTY
+                    )
+                    return@post
+                }
                 when (userService.createUser(request)) {
                     UserRepository.CreateUserResult.SUCCESS -> {
                         call.successfulBasicResponse<Unit>(message = "CREATED")
@@ -32,7 +41,7 @@ fun Route.createUserRoute() {
 
                     UserRepository.CreateUserResult.EMAIL_ALREADY_EXITS -> {
                         call.failureBasicResponse<Unit>(
-                            message = "Email Already Exist"
+                            message = ApiResponses.EMAIL_ALREADY_USED
                         )
                     }
                 }

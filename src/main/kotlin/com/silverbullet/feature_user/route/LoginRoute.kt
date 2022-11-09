@@ -2,13 +2,16 @@ package com.silverbullet.feature_user.route
 
 import com.silverbullet.feature_user.data.UserRepository
 import com.silverbullet.feature_user.data.request.LoginRequest
+import com.silverbullet.feature_user.data.request.hasBlankField
 import com.silverbullet.feature_user.service.UserService
 import com.silverbullet.security.token.TokenClaim
 import com.silverbullet.security.token.TokenConfig
 import com.silverbullet.security.token.TokenService
+import com.silverbullet.utils.ApiResponses
 import com.silverbullet.utils.failureBasicResponse
 import com.silverbullet.utils.parsingFailureResponse
 import com.silverbullet.utils.successfulBasicResponse
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
@@ -25,11 +28,18 @@ fun Route.loginRoute() {
             call.receive<LoginRequest>()
         }.apply {
             onSuccess { request: LoginRequest ->
+                if (request.hasBlankField()) {
+                    call.failureBasicResponse<Unit>(
+                        statusCode = HttpStatusCode.BadRequest,
+                        message = ApiResponses.FIELDS_EMPTY
+                    )
+                    return@post
+                }
                 when (val result = userService.loginUser(request)) {
                     is UserRepository.LoginResult.Success -> {
                         val token = tokenService.generate(
                             tokenConfig = tokenConfig,
-                            TokenClaim("userid", result.userId)
+                            TokenClaim("userId", result.userId)
                         )
                         call.successfulBasicResponse(
                             data = mapOf("token" to token)
@@ -38,7 +48,7 @@ fun Route.loginRoute() {
 
                     UserRepository.LoginResult.WrongCredentials -> {
                         call.failureBasicResponse<Unit>(
-                            message = "Invalid Credentials"
+                            message = ApiResponses.INVALID_CREDENTIALS
                         )
                     }
                 }

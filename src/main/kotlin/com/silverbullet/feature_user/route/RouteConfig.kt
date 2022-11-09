@@ -6,5 +6,6 @@ fun Route.configureUserRoute(){
     route("/api/user"){
         createUserRoute()
         loginRoute()
+        getUserProfileRoute()
     }
 }
