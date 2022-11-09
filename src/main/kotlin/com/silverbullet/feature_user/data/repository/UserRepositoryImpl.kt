@@ -61,4 +61,13 @@ class UserRepositoryImpl(
         return usersCollection
             .findOneById(id)
     }
+
+    override suspend fun updateUser(userId: String, updatedUser: UserEntity): Boolean {
+        return usersCollection
+            .updateOneById(
+                id = userId,
+                update = updatedUser
+            )
+            .wasAcknowledged()
+    }
 }

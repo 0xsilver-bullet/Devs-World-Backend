@@ -20,16 +20,18 @@ interface UserRepository {
 
     suspend fun getUserById(id: String): UserEntity?
 
+    suspend fun updateUser(userId: String, updatedUser: UserEntity): Boolean
+
     enum class CreateUserResult {
         SUCCESS,
         EMAIL_ALREADY_EXITS,
         FAILED
     }
 
-    sealed class LoginResult{
-        class Success(val userId: String): LoginResult()
+    sealed class LoginResult {
+        class Success(val userId: String) : LoginResult()
 
-        object WrongCredentials: LoginResult()
+        object WrongCredentials : LoginResult()
     }
 
 }

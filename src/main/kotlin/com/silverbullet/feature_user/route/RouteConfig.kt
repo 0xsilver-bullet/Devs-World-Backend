@@ -7,5 +7,6 @@ fun Route.configureUserRoute(){
         createUserRoute()
         loginRoute()
         getUserProfileRoute()
+        updateUser()
     }
 }
