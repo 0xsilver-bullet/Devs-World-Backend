@@ -1,0 +1,77 @@
+package com.silverbullet.feature_follow.data.repository
+
+import com.silverbullet.feature_follow.data.FollowingRepository
+import com.silverbullet.feature_follow.data.entity.FollowingEntity
+import com.silverbullet.feature_user.data.entity.UserEntity
+import com.silverbullet.utils.CollectionNames
+import org.litote.kmongo.and
+import org.litote.kmongo.coroutine.CoroutineDatabase
+import org.litote.kmongo.eq
+import org.litote.kmongo.setValue
+
+class FollowingRepositoryImpl(db: CoroutineDatabase) : FollowingRepository {
+
+    private val usersCollection = db.getCollection<UserEntity>(CollectionNames.USERS_COLLECTION)
+    private val followingCollection = db.getCollection<FollowingEntity>(CollectionNames.FOLLOWINGS_COLLECTION)
+
+    override suspend fun createFollowing(following: FollowingEntity): Boolean {
+        val followingUser = usersCollection.findOneById(following.followingUserId)
+        val followedUser = usersCollection.findOneById(following.followedUserId)
+        if (followingUser == null || followedUser == null) {
+            return false
+        }
+        val alreadyFollows = followingCollection
+            .findOne(
+                and(
+                    FollowingEntity::followingUserId eq following.followingUserId,
+                    FollowingEntity::followedUserId eq following.followedUserId
+                )
+            ) != null
+        if (alreadyFollows) {
+            return false
+        }
+        return followingCollection
+            .insertOne(following)
+            .wasAcknowledged()
+            .also { successful ->
+                if (!successful) {
+                    return@also
+                }
+                usersCollection.updateOneById(
+                    followingUser.id,
+                    setValue(UserEntity::followingCount, followingUser.followingCount + 1)
+                )
+                usersCollection.updateOneById(
+                    followedUser.id,
+                    setValue(UserEntity::followersCount, followedUser.followersCount + 1)
+                )
+            }
+    }
+
+    override suspend fun deleteFollowing(followingUserId: String, followedUserId: String): Boolean {
+        val followingUser = usersCollection.findOneById(followingUserId)
+        val followedUser = usersCollection.findOneById(followedUserId)
+        if (followingUser == null || followedUser == null) {
+            return false
+        }
+        val successful = followingCollection
+            .deleteOne(
+                and(
+                    FollowingEntity::followingUserId eq followingUserId,
+                    FollowingEntity::followedUserId eq followedUserId
+                )
+            )
+            .deletedCount > 0
+        if (successful) {
+            usersCollection.updateOneById(
+                followingUser.id,
+                setValue(UserEntity::followingCount, followingUser.followingCount - 1)
+            )
+            usersCollection.updateOneById(
+                followedUser.id,
+                setValue(UserEntity::followersCount, followedUser.followersCount - 1)
+            )
+        }
+        return successful
+    }
+}

@@ -5,14 +5,15 @@ import com.silverbullet.feature_post.data.entity.PostEntity
 import com.silverbullet.feature_post.data.entity.toPost
 import com.silverbullet.feature_post.data.model.Post
 import com.silverbullet.feature_user.data.entity.UserEntity
+import com.silverbullet.utils.CollectionNames
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
 import org.litote.kmongo.setValue
 
 class PostRepositoryImpl(db: CoroutineDatabase) : PostRepository {
 
-    private val usersCollection = db.getCollection<UserEntity>("Users")
-    private val postsCollection = db.getCollection<PostEntity>("Posts")
+    private val usersCollection = db.getCollection<UserEntity>(CollectionNames.USERS_COLLECTION)
+    private val postsCollection = db.getCollection<PostEntity>(CollectionNames.POSTS_COLLECTION)
     override suspend fun createPost(post: PostEntity, userPostsCount: Int): Boolean {
         // userPostsCount passed from posts service which already queries the user data,
         // this is better to avoid another query to update user posts count

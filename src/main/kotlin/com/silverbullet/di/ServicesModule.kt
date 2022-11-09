@@ -1,5 +1,6 @@
 package com.silverbullet.di
 
+import com.silverbullet.feature_follow.service.FollowingService
 import com.silverbullet.feature_post.service.PostService
 import com.silverbullet.feature_user.service.UserService
 import com.silverbullet.security.hashing.HashingService
@@ -24,5 +25,9 @@ val servicesModule = module {
 
     single {
         PostService(get(), get())
+    }
+
+    single {
+        FollowingService(get())
     }
 }

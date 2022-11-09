@@ -1,5 +1,7 @@
 package com.silverbullet.di
 
+import com.silverbullet.feature_follow.data.FollowingRepository
+import com.silverbullet.feature_follow.data.repository.FollowingRepositoryImpl
 import com.silverbullet.feature_post.data.PostRepository
 import com.silverbullet.feature_post.data.repository.PostRepositoryImpl
 import com.silverbullet.feature_user.data.UserRepository
@@ -14,6 +16,10 @@ val repositoriesModule = module {
 
     single<PostRepository> {
         PostRepositoryImpl(get())
+    }
+
+    single<FollowingRepository> {
+        FollowingRepositoryImpl(get())
     }
 
 }

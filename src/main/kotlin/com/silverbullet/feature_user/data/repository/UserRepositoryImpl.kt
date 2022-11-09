@@ -4,6 +4,7 @@ import com.silverbullet.feature_user.data.UserRepository
 import com.silverbullet.feature_user.data.entity.UserEntity
 import com.silverbullet.security.hashing.HashingService
 import com.silverbullet.security.hashing.SaltedHash
+import com.silverbullet.utils.CollectionNames
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
 
@@ -12,7 +13,7 @@ class UserRepositoryImpl(
     private val hashingService: HashingService
 ) : UserRepository {
 
-    private val usersCollection = db.getCollection<UserEntity>(collectionName = "Users")
+    private val usersCollection = db.getCollection<UserEntity>(CollectionNames.USERS_COLLECTION)
 
     override suspend fun createUser(
         username: String,
