@@ -7,5 +7,6 @@ fun Route.configurePostRoutes() {
     route("/api/post") {
 
         createPostRoute()
+        allPostsRoute()
     }
 }
