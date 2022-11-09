@@ -1,5 +1,6 @@
 package com.silverbullet.feature_like.data.repository
 
+import com.silverbullet.feature_comment.data.entity.CommentEntity
 import com.silverbullet.feature_like.data.LikesRepository
 import com.silverbullet.feature_like.data.entity.LikeEntity
 import com.silverbullet.feature_like.data.entity.toLike
@@ -16,6 +17,7 @@ class LikesRepositoryImpl(db: CoroutineDatabase) : LikesRepository {
 
     private val usersCollection = db.getCollection<UserEntity>(CollectionNames.USERS_COLLECTION)
     private val postsCollection = db.getCollection<PostEntity>(CollectionNames.POSTS_COLLECTION)
+    private val commentsCollection = db.getCollection<CommentEntity>(CollectionNames.COMMENTS_COLLECTION)
     private val likesCollection = db.getCollection<LikeEntity>(CollectionNames.LIKES_COLLECTION)
 
     override suspend fun placeLike(userId: String, parentId: String, parentType: LikeParentType): Boolean {
@@ -42,8 +44,13 @@ class LikesRepositoryImpl(db: CoroutineDatabase) : LikesRepository {
             }
 
             LikeParentType.Comment -> {
-                // TODO: Add like to comment
-                false
+                commentsCollection.findOneById(parentId) ?: return false
+                val likeEntity = LikeEntity(
+                    userId = userId,
+                    parentId = parentId,
+                    parentType = parentType.type
+                )
+                likesCollection.insertOne(likeEntity).wasAcknowledged()
             }
 
             LikeParentType.None -> false
@@ -75,8 +82,14 @@ class LikesRepositoryImpl(db: CoroutineDatabase) : LikesRepository {
             }
 
             LikeParentType.Comment -> {
-                // TODO: Remove like from comment
-                false
+                commentsCollection.findOneById(parentId) ?: return false
+                likesCollection.deleteOne(
+                    and(
+                        LikeEntity::userId eq userId,
+                        LikeEntity::parentId eq parentId,
+                        LikeEntity::parentType eq parentType.type
+                    )
+                ).deletedCount > 0
             }
 
             LikeParentType.None -> false

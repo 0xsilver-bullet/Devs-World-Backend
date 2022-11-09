@@ -1,5 +1,6 @@
 package com.silverbullet.plugins
 
+import com.silverbullet.feature_comment.route.configureCommentRoutes
 import com.silverbullet.feature_follow.route.configureFollowingRoutes
 import com.silverbullet.feature_like.route.configureLikeRoutes
 import com.silverbullet.feature_post.route.configurePostRoutes
@@ -15,6 +16,7 @@ fun Application.configureRouting() {
         configurePostRoutes()
         configureFollowingRoutes()
         configureLikeRoutes()
+        configureCommentRoutes()
 
         static {
             resources("static")

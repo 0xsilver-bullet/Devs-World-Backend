@@ -1,5 +1,6 @@
 package com.silverbullet.di
 
+import com.silverbullet.feature_comment.service.CommentsService
 import com.silverbullet.feature_follow.service.FollowingService
 import com.silverbullet.feature_like.service.LikesService
 import com.silverbullet.feature_post.service.PostService
@@ -34,5 +35,9 @@ val servicesModule = module {
 
     single {
         LikesService(get())
+    }
+
+    single {
+        CommentsService(get())
     }
 }

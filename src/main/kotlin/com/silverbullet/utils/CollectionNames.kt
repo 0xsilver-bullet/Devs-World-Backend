@@ -9,4 +9,6 @@ object CollectionNames {
     const val FOLLOWINGS_COLLECTION = "Followings"
 
     const val LIKES_COLLECTION = "Likes"
+
+    const val COMMENTS_COLLECTION = "Comments"
 }
