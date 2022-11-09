@@ -28,7 +28,7 @@ class FollowingRepositoryImpl(db: CoroutineDatabase) : FollowingRepository {
                 )
             ) != null
         if (alreadyFollows) {
-            return false
+            return true
         }
         return followingCollection
             .insertOne(following)

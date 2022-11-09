@@ -7,4 +7,6 @@ object CollectionNames {
     const val POSTS_COLLECTION = "Posts"
 
     const val FOLLOWINGS_COLLECTION = "Followings"
+
+    const val LIKES_COLLECTION = "Likes"
 }
