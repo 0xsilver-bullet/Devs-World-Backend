@@ -1,5 +1,7 @@
 package com.silverbullet.di
 
+import com.silverbullet.feature_activity.data.ActivityRepository
+import com.silverbullet.feature_activity.data.repository.ActivityRepositoryImpl
 import com.silverbullet.feature_comment.data.CommentsRepository
 import com.silverbullet.feature_comment.data.repository.CommentsRepositoryImpl
 import com.silverbullet.feature_follow.data.FollowingRepository
@@ -34,4 +36,7 @@ val repositoriesModule = module {
         CommentsRepositoryImpl(get())
     }
 
+    single<ActivityRepository>{
+        ActivityRepositoryImpl(get())
+    }
 }

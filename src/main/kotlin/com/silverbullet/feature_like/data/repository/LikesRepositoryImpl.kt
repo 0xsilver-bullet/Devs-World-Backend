@@ -1,5 +1,8 @@
 package com.silverbullet.feature_like.data.repository
 
+import com.silverbullet.feature_activity.data.entity.ActivityEntity
+import com.silverbullet.feature_activity.data.util.ActivityTargetType
+import com.silverbullet.feature_activity.data.util.ActivityType
 import com.silverbullet.feature_comment.data.entity.CommentEntity
 import com.silverbullet.feature_like.data.LikesRepository
 import com.silverbullet.feature_like.data.entity.LikeEntity
@@ -19,9 +22,10 @@ class LikesRepositoryImpl(db: CoroutineDatabase) : LikesRepository {
     private val postsCollection = db.getCollection<PostEntity>(CollectionNames.POSTS_COLLECTION)
     private val commentsCollection = db.getCollection<CommentEntity>(CollectionNames.COMMENTS_COLLECTION)
     private val likesCollection = db.getCollection<LikeEntity>(CollectionNames.LIKES_COLLECTION)
+    private val activitiesCollection = db.getCollection<ActivityEntity>(CollectionNames.ACTIVITIES_COLLECTION)
 
     override suspend fun placeLike(userId: String, parentId: String, parentType: LikeParentType): Boolean {
-        usersCollection.findOneById(userId) ?: return false
+        val user = usersCollection.findOneById(userId) ?: return false
         val likeAlreadyExists = likesCollection.findOne(
             and(
                 LikeEntity::parentId eq parentId,
@@ -34,23 +38,45 @@ class LikesRepositoryImpl(db: CoroutineDatabase) : LikesRepository {
         }
         return when (parentType) {
             LikeParentType.Post -> {
-                postsCollection.findOneById(parentId) ?: return false
+                val post = postsCollection.findOneById(parentId) ?: return false
                 val likeEntity = LikeEntity(
                     userId = userId,
                     parentId = parentId,
                     parentType = parentType.type
                 )
-                likesCollection.insertOne(likeEntity).wasAcknowledged()
+                likesCollection
+                    .insertOne(likeEntity)
+                    .wasAcknowledged()
+                    .also {
+                        createLikeActivity(
+                            ownerId = post.userId,
+                            issuerId = userId,
+                            issuerName = user.username,
+                            targetId = post.id,
+                            targetType = ActivityTargetType.Post.type
+                        )
+                    }
             }
 
             LikeParentType.Comment -> {
-                commentsCollection.findOneById(parentId) ?: return false
+                val comment = commentsCollection.findOneById(parentId) ?: return false
                 val likeEntity = LikeEntity(
                     userId = userId,
                     parentId = parentId,
                     parentType = parentType.type
                 )
-                likesCollection.insertOne(likeEntity).wasAcknowledged()
+                likesCollection
+                    .insertOne(likeEntity)
+                    .wasAcknowledged()
+                    .also {
+                        createLikeActivity(
+                            ownerId = comment.userId,
+                            issuerId = userId,
+                            issuerName = user.username,
+                            targetId = comment.id,
+                            targetType = ActivityTargetType.Comment.type
+                        )
+                    }
             }
 
             LikeParentType.None -> false
@@ -101,5 +127,24 @@ class LikesRepositoryImpl(db: CoroutineDatabase) : LikesRepository {
             .find(LikeEntity::parentId eq parentId)
             .toList()
             .map { it.toLike() }
+    }
+
+    private suspend fun createLikeActivity(
+        ownerId: String,
+        issuerId: String,
+        issuerName: String,
+        targetType: Int,
+        targetId: String
+    ) {
+        val activityEntity = ActivityEntity(
+            ownerId = ownerId,
+            type = ActivityType.Liked.type,
+            issuerId = issuerId,
+            issuerName = issuerName,
+            targetType = targetType,
+            targetId = targetId,
+            timestamp = System.currentTimeMillis()
+        )
+        activitiesCollection.insertOne(activityEntity)
     }
 }

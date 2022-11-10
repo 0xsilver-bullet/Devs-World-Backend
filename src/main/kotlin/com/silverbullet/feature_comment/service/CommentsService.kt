@@ -4,7 +4,9 @@ import com.silverbullet.feature_comment.data.CommentsRepository
 import com.silverbullet.feature_comment.data.model.Comment
 import com.silverbullet.feature_comment.data.request.CreateCommentRequest
 
-class CommentsService(private val repository: CommentsRepository) {
+class CommentsService(
+    private val repository: CommentsRepository
+    ) {
 
     suspend fun createComment(request: CreateCommentRequest, userId: String): Boolean {
         if (request.text.isBlank()) {

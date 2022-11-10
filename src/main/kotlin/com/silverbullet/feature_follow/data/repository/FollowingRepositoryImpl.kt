@@ -1,5 +1,7 @@
 package com.silverbullet.feature_follow.data.repository
 
+import com.silverbullet.feature_activity.data.entity.ActivityEntity
+import com.silverbullet.feature_activity.data.util.ActivityType
 import com.silverbullet.feature_follow.data.FollowingRepository
 import com.silverbullet.feature_follow.data.entity.FollowingEntity
 import com.silverbullet.feature_user.data.entity.UserEntity
@@ -13,6 +15,7 @@ class FollowingRepositoryImpl(db: CoroutineDatabase) : FollowingRepository {
 
     private val usersCollection = db.getCollection<UserEntity>(CollectionNames.USERS_COLLECTION)
     private val followingCollection = db.getCollection<FollowingEntity>(CollectionNames.FOLLOWINGS_COLLECTION)
+    private val activitiesCollection = db.getCollection<ActivityEntity>(CollectionNames.ACTIVITIES_COLLECTION)
 
     override suspend fun createFollowing(following: FollowingEntity): Boolean {
         val followingUser = usersCollection.findOneById(following.followingUserId)
@@ -34,9 +37,8 @@ class FollowingRepositoryImpl(db: CoroutineDatabase) : FollowingRepository {
             .insertOne(following)
             .wasAcknowledged()
             .also { successful ->
-                if (!successful) {
+                if (!successful)
                     return@also
-                }
                 usersCollection.updateOneById(
                     followingUser.id,
                     setValue(UserEntity::followingCount, followingUser.followingCount + 1)
@@ -44,6 +46,11 @@ class FollowingRepositoryImpl(db: CoroutineDatabase) : FollowingRepository {
                 usersCollection.updateOneById(
                     followedUser.id,
                     setValue(UserEntity::followersCount, followedUser.followersCount + 1)
+                )
+                createFollowedActivity(
+                    ownerId = followedUser.id,
+                    issuerId = followingUser.id,
+                    issuerName = followingUser.username
                 )
             }
     }
@@ -73,5 +80,22 @@ class FollowingRepositoryImpl(db: CoroutineDatabase) : FollowingRepository {
             )
         }
         return successful
+    }
+
+    private suspend fun createFollowedActivity(
+        ownerId: String,
+        issuerId: String,
+        issuerName: String,
+    ) {
+        val activityEntity = ActivityEntity(
+            ownerId = ownerId,
+            type = ActivityType.Followed.type,
+            issuerId = issuerId,
+            issuerName = issuerName,
+            targetType = null,
+            targetId = null,
+            timestamp = System.currentTimeMillis()
+        )
+        activitiesCollection.insertOne(activityEntity)
     }
 }
