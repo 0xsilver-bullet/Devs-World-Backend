@@ -1,6 +1,6 @@
-package com.silverbullet.feature_post.data
+package com.silverbullet.core.data.interfaces
 
-import com.silverbullet.feature_post.data.entity.PostEntity
+import com.silverbullet.core.data.entity.PostEntity
 import com.silverbullet.feature_post.data.model.Post
 
 interface PostRepository {

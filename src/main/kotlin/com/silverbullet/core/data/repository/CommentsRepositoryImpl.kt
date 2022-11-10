@@ -1,11 +1,10 @@
-package com.silverbullet.feature_comment.data.repository
+package com.silverbullet.core.data.repository
 
-import com.silverbullet.feature_comment.data.CommentsRepository
-import com.silverbullet.feature_comment.data.entity.CommentEntity
-import com.silverbullet.feature_comment.data.entity.toComment
+import com.silverbullet.core.data.entity.CommentEntity
+import com.silverbullet.core.data.entity.PostEntity
+import com.silverbullet.core.data.entity.UserEntity
+import com.silverbullet.core.data.interfaces.CommentsRepository
 import com.silverbullet.feature_comment.data.model.Comment
-import com.silverbullet.feature_post.data.entity.PostEntity
-import com.silverbullet.feature_user.data.entity.UserEntity
 import com.silverbullet.utils.CollectionNames
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
@@ -38,6 +37,6 @@ class CommentsRepositoryImpl(db: CoroutineDatabase) : CommentsRepository {
         return commentsCollection
             .find(CommentEntity::postId eq postId)
             .toList()
-            .map { it.toComment() }
+            .map { Comment.fromCommentEntity(it) }
     }
 }

@@ -1,10 +1,9 @@
-package com.silverbullet.feature_post.data.repository
+package com.silverbullet.core.data.repository
 
-import com.silverbullet.feature_post.data.PostRepository
-import com.silverbullet.feature_post.data.entity.PostEntity
-import com.silverbullet.feature_post.data.entity.toPost
+import com.silverbullet.core.data.entity.PostEntity
+import com.silverbullet.core.data.entity.UserEntity
+import com.silverbullet.core.data.interfaces.PostRepository
 import com.silverbullet.feature_post.data.model.Post
-import com.silverbullet.feature_user.data.entity.UserEntity
 import com.silverbullet.utils.CollectionNames
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
@@ -32,8 +31,6 @@ class PostRepositoryImpl(db: CoroutineDatabase) : PostRepository {
         return postsCollection
             .find(PostEntity::userId eq userId)
             .toList()
-            .map { postEntity ->
-                postEntity.toPost()
-            }
+            .map { Post.fromPostEntity(it) }
     }
 }

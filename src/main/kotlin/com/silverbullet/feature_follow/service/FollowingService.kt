@@ -1,7 +1,7 @@
 package com.silverbullet.feature_follow.service
 
-import com.silverbullet.feature_follow.data.FollowingRepository
-import com.silverbullet.feature_follow.data.entity.FollowingEntity
+import com.silverbullet.core.data.interfaces.FollowingRepository
+import com.silverbullet.core.data.entity.FollowingEntity
 
 class FollowingService(
     private val repository: FollowingRepository

@@ -1,10 +1,10 @@
-package com.silverbullet.feature_follow.data.repository
+package com.silverbullet.core.data.repository
 
-import com.silverbullet.feature_activity.data.entity.ActivityEntity
+import com.silverbullet.core.data.entity.ActivityEntity
 import com.silverbullet.feature_activity.data.util.ActivityType
-import com.silverbullet.feature_follow.data.FollowingRepository
-import com.silverbullet.feature_follow.data.entity.FollowingEntity
-import com.silverbullet.feature_user.data.entity.UserEntity
+import com.silverbullet.core.data.interfaces.FollowingRepository
+import com.silverbullet.core.data.entity.FollowingEntity
+import com.silverbullet.core.data.entity.UserEntity
 import com.silverbullet.utils.CollectionNames
 import org.litote.kmongo.and
 import org.litote.kmongo.coroutine.CoroutineDatabase

@@ -1,6 +1,6 @@
 package com.silverbullet.feature_user.route
 
-import com.silverbullet.feature_user.data.UserRepository
+import com.silverbullet.core.data.interfaces.UserRepository
 import com.silverbullet.feature_user.data.request.LoginRequest
 import com.silverbullet.feature_user.data.request.hasBlankField
 import com.silverbullet.feature_user.service.UserService

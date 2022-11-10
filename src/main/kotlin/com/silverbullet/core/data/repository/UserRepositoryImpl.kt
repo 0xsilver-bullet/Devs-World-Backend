@@ -1,7 +1,7 @@
-package com.silverbullet.feature_user.data.repository
+package com.silverbullet.core.data.repository
 
-import com.silverbullet.feature_user.data.UserRepository
-import com.silverbullet.feature_user.data.entity.UserEntity
+import com.silverbullet.core.data.entity.UserEntity
+import com.silverbullet.core.data.interfaces.UserRepository
 import com.silverbullet.security.hashing.HashingService
 import com.silverbullet.security.hashing.SaltedHash
 import com.silverbullet.utils.CollectionNames

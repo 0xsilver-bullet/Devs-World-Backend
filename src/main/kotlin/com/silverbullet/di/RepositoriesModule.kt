@@ -1,17 +1,17 @@
 package com.silverbullet.di
 
-import com.silverbullet.feature_activity.data.ActivityRepository
-import com.silverbullet.feature_activity.data.repository.ActivityRepositoryImpl
-import com.silverbullet.feature_comment.data.CommentsRepository
-import com.silverbullet.feature_comment.data.repository.CommentsRepositoryImpl
-import com.silverbullet.feature_follow.data.FollowingRepository
-import com.silverbullet.feature_follow.data.repository.FollowingRepositoryImpl
-import com.silverbullet.feature_like.data.LikesRepository
-import com.silverbullet.feature_like.data.repository.LikesRepositoryImpl
-import com.silverbullet.feature_post.data.PostRepository
-import com.silverbullet.feature_post.data.repository.PostRepositoryImpl
-import com.silverbullet.feature_user.data.UserRepository
-import com.silverbullet.feature_user.data.repository.UserRepositoryImpl
+import com.silverbullet.core.data.interfaces.ActivityRepository
+import com.silverbullet.core.data.repository.ActivityRepositoryImpl
+import com.silverbullet.core.data.interfaces.CommentsRepository
+import com.silverbullet.core.data.repository.CommentsRepositoryImpl
+import com.silverbullet.core.data.interfaces.FollowingRepository
+import com.silverbullet.core.data.repository.FollowingRepositoryImpl
+import com.silverbullet.core.data.interfaces.LikesRepository
+import com.silverbullet.core.data.repository.LikesRepositoryImpl
+import com.silverbullet.core.data.interfaces.PostRepository
+import com.silverbullet.core.data.repository.PostRepositoryImpl
+import com.silverbullet.core.data.interfaces.UserRepository
+import com.silverbullet.core.data.repository.UserRepositoryImpl
 import org.koin.dsl.module
 
 val repositoriesModule = module {

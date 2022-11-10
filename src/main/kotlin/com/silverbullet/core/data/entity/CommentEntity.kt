@@ -1,6 +1,5 @@
-package com.silverbullet.feature_comment.data.entity
+package com.silverbullet.core.data.entity
 
-import com.silverbullet.feature_comment.data.model.Comment
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 
@@ -30,16 +29,4 @@ data class CommentEntity(
             )
         }
     }
-}
-
-fun CommentEntity.toComment(): Comment {
-    return Comment(
-        text = text,
-        timestamp = timestamp,
-        postId = postId,
-        userId = userId,
-        username = username,
-        likesCount = likesCount,
-        id = id
-    )
 }

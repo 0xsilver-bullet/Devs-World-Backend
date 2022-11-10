@@ -1,6 +1,6 @@
 package com.silverbullet.feature_comment.service
 
-import com.silverbullet.feature_comment.data.CommentsRepository
+import com.silverbullet.core.data.interfaces.CommentsRepository
 import com.silverbullet.feature_comment.data.model.Comment
 import com.silverbullet.feature_comment.data.request.CreateCommentRequest
 

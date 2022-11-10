@@ -1,4 +1,4 @@
-package com.silverbullet.feature_comment.data
+package com.silverbullet.core.data.interfaces
 
 import com.silverbullet.feature_comment.data.model.Comment
 

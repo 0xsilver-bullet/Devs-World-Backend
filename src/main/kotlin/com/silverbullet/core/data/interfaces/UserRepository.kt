@@ -1,6 +1,7 @@
-package com.silverbullet.feature_user.data
+package com.silverbullet.core.data.interfaces
 
-import com.silverbullet.feature_user.data.entity.UserEntity
+import com.silverbullet.core.data.entity.UserEntity
+
 
 interface UserRepository {
 

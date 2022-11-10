@@ -1,4 +1,4 @@
-package com.silverbullet.feature_follow.data.entity
+package com.silverbullet.core.data.entity
 
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId

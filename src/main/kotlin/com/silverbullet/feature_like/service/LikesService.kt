@@ -1,6 +1,6 @@
 package com.silverbullet.feature_like.service
 
-import com.silverbullet.feature_like.data.LikesRepository
+import com.silverbullet.core.data.interfaces.LikesRepository
 import com.silverbullet.feature_like.data.model.Like
 import com.silverbullet.feature_like.data.request.LikeRequest
 import com.silverbullet.feature_like.data.util.LikeParentType

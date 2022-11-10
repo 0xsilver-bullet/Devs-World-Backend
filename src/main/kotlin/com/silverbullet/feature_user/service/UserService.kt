@@ -1,8 +1,7 @@
 package com.silverbullet.feature_user.service
 
-import com.silverbullet.feature_user.data.UserRepository
-import com.silverbullet.feature_user.data.entity.UserEntity
-import com.silverbullet.feature_user.data.entity.toProfileResponse
+import com.silverbullet.core.data.entity.UserEntity
+import com.silverbullet.core.data.interfaces.UserRepository
 import com.silverbullet.feature_user.data.request.CreateUserRequest
 import com.silverbullet.feature_user.data.request.LoginRequest
 import com.silverbullet.feature_user.data.request.UpdateUserRequest
@@ -28,7 +27,7 @@ class UserService(private val repository: UserRepository) {
     suspend fun getUserProfile(targetId: String, userId: String): ProfileResponse? {
         val targetUser = repository.getUserById(targetId)
         val isOwnProfile = targetUser?.id == userId
-        return targetUser?.toProfileResponse(isOwnProfile)
+        return targetUser?.let { ProfileResponse.fromUserEntity(it, isOwnProfile) }
     }
 
     /**

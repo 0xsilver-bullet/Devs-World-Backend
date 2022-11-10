@@ -1,6 +1,5 @@
-package com.silverbullet.feature_activity.data.entity
+package com.silverbullet.core.data.entity
 
-import com.silverbullet.feature_activity.data.model.Activity
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 
@@ -23,15 +22,3 @@ data class ActivityEntity(
     @BsonId
     val id: String = ObjectId().toString()
 )
-
-fun ActivityEntity.toActivity(): Activity {
-    return Activity(
-        ownerId = ownerId,
-        type = type,
-        issuerId = issuerId,
-        issuerName = issuerName,
-        targetType = targetType,
-        targetId = targetId,
-        timestamp = timestamp
-    )
-}

@@ -1,4 +1,4 @@
-package com.silverbullet.feature_activity.data
+package com.silverbullet.core.data.interfaces
 
 import com.silverbullet.feature_activity.data.model.Activity
 

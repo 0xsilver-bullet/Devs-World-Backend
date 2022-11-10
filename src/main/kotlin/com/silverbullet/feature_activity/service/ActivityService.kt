@@ -1,6 +1,6 @@
 package com.silverbullet.feature_activity.service
 
-import com.silverbullet.feature_activity.data.ActivityRepository
+import com.silverbullet.core.data.interfaces.ActivityRepository
 import com.silverbullet.feature_activity.data.model.Activity
 
 class ActivityService(private val repository: ActivityRepository) {

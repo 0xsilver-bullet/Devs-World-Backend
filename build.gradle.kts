@@ -47,6 +47,8 @@ dependencies {
     // Koin
     implementation("io.insert-koin:koin-ktor:$koin_ktor")
     implementation("io.insert-koin:koin-logger-slf4j:$koin_ktor")
+    testImplementation("io.insert-koin:koin-test:$koin_ktor")
+    testImplementation("io.insert-koin:koin-test-junit4:$koin_ktor")
 
     // Kmongo
     implementation("org.litote.kmongo:kmongo:$kmongo_version")

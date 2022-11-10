@@ -1,6 +1,5 @@
-package com.silverbullet.feature_post.data.entity
+package com.silverbullet.core.data.entity
 
-import com.silverbullet.feature_post.data.model.Post
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 
@@ -13,12 +12,3 @@ data class PostEntity(
     @BsonId
     val id: String = ObjectId().toString()
 )
-
-fun PostEntity.toPost(): Post {
-    return Post(
-        imageUrl = imageUrl,
-        description = description,
-        timestamp = timestamp,
-        userId = userId
-    )
-}

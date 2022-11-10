@@ -1,4 +1,4 @@
-package com.silverbullet.feature_like.data
+package com.silverbullet.core.data.interfaces
 
 import com.silverbullet.feature_like.data.model.Like
 import com.silverbullet.feature_like.data.util.LikeParentType

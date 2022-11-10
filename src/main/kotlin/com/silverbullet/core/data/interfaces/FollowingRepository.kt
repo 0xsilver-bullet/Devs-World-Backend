@@ -1,6 +1,6 @@
-package com.silverbullet.feature_follow.data
+package com.silverbullet.core.data.interfaces
 
-import com.silverbullet.feature_follow.data.entity.FollowingEntity
+import com.silverbullet.core.data.entity.FollowingEntity
 
 interface FollowingRepository {
 

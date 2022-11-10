@@ -1,10 +1,10 @@
 package com.silverbullet.feature_post.service
 
-import com.silverbullet.feature_post.data.PostRepository
-import com.silverbullet.feature_post.data.entity.PostEntity
+import com.silverbullet.core.data.entity.PostEntity
+import com.silverbullet.core.data.interfaces.PostRepository
 import com.silverbullet.feature_post.data.model.Post
 import com.silverbullet.feature_post.data.request.CreatePostRequest
-import com.silverbullet.feature_user.data.UserRepository
+import com.silverbullet.core.data.interfaces.UserRepository
 
 class PostService(
     private val userRepository: UserRepository,

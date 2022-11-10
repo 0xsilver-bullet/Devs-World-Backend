@@ -1,16 +1,11 @@
-package com.silverbullet.feature_like.data.repository
+package com.silverbullet.core.data.repository
 
-import com.silverbullet.feature_activity.data.entity.ActivityEntity
+import com.silverbullet.core.data.entity.*
 import com.silverbullet.feature_activity.data.util.ActivityTargetType
 import com.silverbullet.feature_activity.data.util.ActivityType
-import com.silverbullet.feature_comment.data.entity.CommentEntity
-import com.silverbullet.feature_like.data.LikesRepository
-import com.silverbullet.feature_like.data.entity.LikeEntity
-import com.silverbullet.feature_like.data.entity.toLike
+import com.silverbullet.core.data.interfaces.LikesRepository
 import com.silverbullet.feature_like.data.model.Like
 import com.silverbullet.feature_like.data.util.LikeParentType
-import com.silverbullet.feature_post.data.entity.PostEntity
-import com.silverbullet.feature_user.data.entity.UserEntity
 import com.silverbullet.utils.CollectionNames
 import org.litote.kmongo.and
 import org.litote.kmongo.coroutine.CoroutineDatabase
@@ -126,7 +121,7 @@ class LikesRepositoryImpl(db: CoroutineDatabase) : LikesRepository {
         return likesCollection
             .find(LikeEntity::parentId eq parentId)
             .toList()
-            .map { it.toLike() }
+            .map { Like.fromLikeEntity(it) }
     }
 
     private suspend fun createLikeActivity(
