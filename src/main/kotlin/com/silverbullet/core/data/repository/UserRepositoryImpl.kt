@@ -63,6 +63,11 @@ class UserRepositoryImpl(
             .findOneById(id)
     }
 
+    override suspend fun getUserByEmail(email: String): UserEntity? {
+        return usersCollection
+            .findOne(UserEntity::email eq email)
+    }
+
     override suspend fun updateUser(userId: String, updatedUser: UserEntity): Boolean {
         return usersCollection
             .updateOneById(

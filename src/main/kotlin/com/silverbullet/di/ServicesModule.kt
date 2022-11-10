@@ -5,6 +5,7 @@ import com.silverbullet.feature_comment.service.CommentsService
 import com.silverbullet.feature_follow.service.FollowingService
 import com.silverbullet.feature_like.service.LikesService
 import com.silverbullet.feature_post.service.PostService
+import com.silverbullet.feature_search.service.SearchService
 import com.silverbullet.feature_user.service.UserService
 import com.silverbullet.security.hashing.HashingService
 import com.silverbullet.security.hashing.SHA256HashingService
@@ -44,5 +45,9 @@ val servicesModule = module {
 
     single {
         ActivityService(get())
+    }
+
+    single {
+        SearchService(get())
     }
 }

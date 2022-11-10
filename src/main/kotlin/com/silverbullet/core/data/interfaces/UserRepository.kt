@@ -21,6 +21,8 @@ interface UserRepository {
 
     suspend fun getUserById(id: String): UserEntity?
 
+    suspend fun getUserByEmail(email: String): UserEntity?
+
     suspend fun updateUser(userId: String, updatedUser: UserEntity): Boolean
 
     enum class CreateUserResult {

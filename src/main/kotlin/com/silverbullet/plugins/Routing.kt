@@ -5,6 +5,7 @@ import com.silverbullet.feature_comment.route.configureCommentRoutes
 import com.silverbullet.feature_follow.route.configureFollowingRoutes
 import com.silverbullet.feature_like.route.configureLikeRoutes
 import com.silverbullet.feature_post.route.configurePostRoutes
+import com.silverbullet.feature_search.route.configureSearchRoutes
 import com.silverbullet.feature_user.route.configureUserRoute
 import io.ktor.server.routing.*
 import io.ktor.server.application.*
@@ -19,6 +20,7 @@ fun Application.configureRouting() {
         configureLikeRoutes()
         configureCommentRoutes()
         configureActivitiesRoutes()
+        configureSearchRoutes()
 
         static {
             resources("static")
