@@ -33,6 +33,11 @@ class CommentsRepositoryImpl(db: CoroutineDatabase) : CommentsRepository {
             .wasAcknowledged()
     }
 
+    override suspend fun commentsCount(postId: String): Long {
+        return commentsCollection
+            .countDocuments(CommentEntity::postId eq postId)
+    }
+
     override suspend fun getComments(postId: String): List<Comment> {
         return commentsCollection
             .find(CommentEntity::postId eq postId)

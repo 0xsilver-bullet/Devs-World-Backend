@@ -9,4 +9,6 @@ object Constants {
 
     const val DB_NAME = "Devs-World-db"
 
+    const val POSTS_COUNT_PER_PAGE = 15
+
 }

@@ -11,4 +11,6 @@ interface CommentsRepository {
     ): Boolean
 
     suspend fun getComments(postId: String): List<Comment>
+
+    suspend fun commentsCount(postId: String): Long
 }

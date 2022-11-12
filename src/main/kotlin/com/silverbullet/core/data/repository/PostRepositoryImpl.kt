@@ -3,7 +3,6 @@ package com.silverbullet.core.data.repository
 import com.silverbullet.core.data.entity.PostEntity
 import com.silverbullet.core.data.entity.UserEntity
 import com.silverbullet.core.data.interfaces.PostRepository
-import com.silverbullet.feature_post.data.model.Post
 import com.silverbullet.utils.CollectionNames
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
@@ -27,10 +26,17 @@ class PostRepositoryImpl(db: CoroutineDatabase) : PostRepository {
             }
     }
 
-    override suspend fun getAllPosts(userId: String): List<Post> {
+    override suspend fun getAllPosts(
+        userId: String,
+        page: Int,
+        offset: Int
+    ): List<PostEntity> {
         return postsCollection
             .find(PostEntity::userId eq userId)
+            .skip(skip = (page - 1) * offset)
+            .limit(offset)
+            .partial(true)
+            .descendingSort(PostEntity::timestamp)
             .toList()
-            .map { Post.fromPostEntity(it) }
     }
 }

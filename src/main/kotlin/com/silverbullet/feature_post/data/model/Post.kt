@@ -8,16 +8,27 @@ data class Post(
     val imageUrl: String,
     val description: String,
     val timestamp: Long,
-    val userId: String
-){
-    companion object{
+    val userId: String,
+    val username: String,
+    val likesCount: Long,
+    val commentsCount: Long
+) {
+    companion object {
 
-        fun fromPostEntity(postEntity: PostEntity): Post{
+        fun fromPostEntity(
+            postEntity: PostEntity,
+            username: String,
+            likesCount: Long,
+            commentsCount: Long
+        ): Post {
             return Post(
                 imageUrl = postEntity.imageUrl,
                 description = postEntity.description,
                 timestamp = postEntity.timestamp,
-                userId = postEntity.userId
+                userId = postEntity.userId,
+                username = username,
+                likesCount = likesCount,
+                commentsCount = commentsCount
             )
         }
     }

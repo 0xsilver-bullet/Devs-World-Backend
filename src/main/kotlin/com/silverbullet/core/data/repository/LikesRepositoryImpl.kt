@@ -124,6 +124,11 @@ class LikesRepositoryImpl(db: CoroutineDatabase) : LikesRepository {
             .map { Like.fromLikeEntity(it) }
     }
 
+    override suspend fun likesCount(parentId: String): Long {
+        return likesCollection
+            .countDocuments(LikeEntity::parentId eq parentId)
+    }
+
     private suspend fun createLikeActivity(
         ownerId: String,
         issuerId: String,

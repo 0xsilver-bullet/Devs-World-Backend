@@ -19,4 +19,6 @@ interface LikesRepository {
 
     suspend fun getLikes(parentId: String): List<Like>
 
+    suspend fun likesCount(parentId: String): Long
+
 }
