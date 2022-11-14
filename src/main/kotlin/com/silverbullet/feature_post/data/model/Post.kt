@@ -10,6 +10,7 @@ data class Post(
     val description: String,
     val timestamp: Long,
     val userId: String,
+    val profileImageUrl: String?,
     val isLiked: Boolean,
     val username: String,
     val likesCount: Long,
@@ -20,6 +21,7 @@ data class Post(
         fun fromPostEntity(
             postEntity: PostEntity,
             username: String,
+            profileImageUrl: String?,
             isLiked: Boolean,
             likesCount: Long,
             commentsCount: Long
@@ -30,6 +32,7 @@ data class Post(
                 description = postEntity.description,
                 timestamp = postEntity.timestamp,
                 userId = postEntity.userId,
+                profileImageUrl = profileImageUrl,
                 isLiked = isLiked,
                 username = username,
                 likesCount = likesCount,

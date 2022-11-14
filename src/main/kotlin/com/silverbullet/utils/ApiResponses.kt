@@ -11,4 +11,7 @@ object ApiResponses {
     // Login
     const val INVALID_CREDENTIALS = "Invalid Credentials"
 
+    // Posts
+    const val NO_POST_ID = "You must pass a postId query param"
+
 }

@@ -18,4 +18,6 @@ interface PostRepository {
         offset: Int
     ): List<PostEntity>
 
+    suspend fun getPost(postId: String): PostEntity?
+
 }

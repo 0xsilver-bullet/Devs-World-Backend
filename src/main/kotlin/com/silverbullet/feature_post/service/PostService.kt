@@ -53,6 +53,7 @@ class PostService(
             Post.fromPostEntity(
                 postEntity = postEntity,
                 username = user.username,
+                profileImageUrl = user.profileImageUrl,
                 isLiked = isLiked,
                 likesCount = likesCount,
                 commentsCount = commentsCount
@@ -81,6 +82,7 @@ class PostService(
             val post = Post.fromPostEntity(
                 postEntity = postEntity,
                 username = postOwner.username,
+                profileImageUrl = postOwner.profileImageUrl,
                 isLiked = isLiked,
                 likesCount = likesCount,
                 commentsCount = commentsCount
@@ -88,5 +90,21 @@ class PostService(
             feed.add(post)
         }
         return feed
+    }
+
+    suspend fun getPost(postId: String, userId: String): Post? {
+        val postEntity = postsRepository.getPost(postId) ?: return null
+        val postOwner = userRepository.getUserById(postEntity.userId) ?: return null
+        val isLiked = likesRepository.isParentLikedByUser(postId, userId)
+        val likesCount = likesRepository.likesCount(postId)
+        val commentsCount = commentsRepository.commentsCount(postId)
+        return Post.fromPostEntity(
+            postEntity = postEntity,
+            username = postOwner.username,
+            profileImageUrl = postOwner.profileImageUrl,
+            isLiked = isLiked,
+            likesCount = likesCount,
+            commentsCount = commentsCount
+        )
     }
 }

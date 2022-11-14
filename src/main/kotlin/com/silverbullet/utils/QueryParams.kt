@@ -6,6 +6,8 @@ object QueryParams {
 
     const val PARAM_PARENT_ID = "parentId"
 
+    const val PARAM_POST_ID = "postId"
+
     const val PARAM_PAGE_NUMBER = "page"
 
     const val PARAM_PAGE_OFFSET = "offset"

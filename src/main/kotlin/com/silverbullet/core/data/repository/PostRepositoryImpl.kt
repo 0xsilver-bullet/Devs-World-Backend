@@ -54,4 +54,8 @@ class PostRepositoryImpl(db: CoroutineDatabase) : PostRepository {
             .descendingSort(PostEntity::timestamp)
             .toList()
     }
+
+    override suspend fun getPost(postId: String): PostEntity? {
+        return postsCollection.findOne(PostEntity::id eq postId)
+    }
 }
