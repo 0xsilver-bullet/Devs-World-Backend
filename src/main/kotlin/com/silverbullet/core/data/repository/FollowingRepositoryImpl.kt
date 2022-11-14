@@ -82,6 +82,12 @@ class FollowingRepositoryImpl(db: CoroutineDatabase) : FollowingRepository {
         return successful
     }
 
+    override suspend fun getUserFollows(userId: String): List<FollowingEntity> {
+        return followingCollection
+            .find(FollowingEntity::followingUserId eq userId)
+            .toList()
+    }
+
     private suspend fun createFollowedActivity(
         ownerId: String,
         issuerId: String,

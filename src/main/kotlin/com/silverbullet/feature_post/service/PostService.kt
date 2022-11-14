@@ -38,21 +38,24 @@ class PostService(
 
     suspend fun getAllPosts(
         userId: String,
+        targetUserId: String,
         page: Int?,
         offset: Int?
     ): List<Post> {
-        val user = userRepository.getUserById(userId) ?: return emptyList()
+        val user = userRepository.getUserById(targetUserId) ?: return emptyList()
         val postEntities = postsRepository.getAllPosts(
-            userId = userId,
+            userId = targetUserId,
             page = page ?: 1,
             offset = offset ?: Constants.POSTS_COUNT_PER_PAGE
         )
         return postEntities.map { postEntity ->
+            val isLiked = likesRepository.isParentLikedByUser(postEntity.id, userId)
             val likesCount = likesRepository.likesCount(postEntity.id)
             val commentsCount = commentsRepository.commentsCount(postEntity.id)
             Post.fromPostEntity(
                 postEntity = postEntity,
                 username = user.username,
+                isLiked = isLiked,
                 likesCount = likesCount,
                 commentsCount = commentsCount
             )

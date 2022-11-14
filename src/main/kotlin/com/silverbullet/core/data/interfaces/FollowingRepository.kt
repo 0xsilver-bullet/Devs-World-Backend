@@ -10,4 +10,9 @@ interface FollowingRepository {
         followingUserId: String,
         followedUserId: String
     ): Boolean
+
+    /**
+     * @return a list of users followed by this user
+     */
+    suspend fun getUserFollows(userId: String): List<FollowingEntity>
 }

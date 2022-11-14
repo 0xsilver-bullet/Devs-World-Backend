@@ -18,11 +18,12 @@ fun Route.allPostsRoute() {
 
     authenticate {
         get("/all") {
-            val userId = call.parameters[QueryParams.PARAM_USER_ID] ?: call.userId
+            val targetUserId = call.parameters[QueryParams.PARAM_USER_ID] ?: call.userId
             val page = call.parameters[QueryParams.PARAM_PAGE_NUMBER]?.toIntOrNull()
             val offset = call.parameters[QueryParams.PARAM_PAGE_OFFSET]?.toIntOrNull()
             val posts = postsService.getAllPosts(
-                userId = userId,
+                userId = call.userId,
+                targetUserId = targetUserId,
                 page = page,
                 offset = offset
             )

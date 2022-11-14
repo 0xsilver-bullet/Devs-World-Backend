@@ -1,16 +1,20 @@
 package com.silverbullet.feature_user.service
 
 import com.silverbullet.core.data.entity.UserEntity
+import com.silverbullet.core.data.interfaces.FollowingRepository
 import com.silverbullet.core.data.interfaces.UserRepository
 import com.silverbullet.feature_user.data.request.CreateUserRequest
 import com.silverbullet.feature_user.data.request.LoginRequest
 import com.silverbullet.feature_user.data.request.UpdateUserRequest
 import com.silverbullet.feature_user.data.response.ProfileResponse
 
-class UserService(private val repository: UserRepository) {
+class UserService(
+    private val userRepository: UserRepository,
+    private val followingRepository: FollowingRepository
+) {
 
     suspend fun createUser(request: CreateUserRequest): UserRepository.CreateUserResult {
-        return repository.createUser(
+        return userRepository.createUser(
             username = request.username,
             email = request.email,
             password = request.password
@@ -18,16 +22,28 @@ class UserService(private val repository: UserRepository) {
     }
 
     suspend fun loginUser(request: LoginRequest): UserRepository.LoginResult {
-        return repository.loginUser(
+        return userRepository.loginUser(
             email = request.email,
             password = request.password
         )
     }
 
     suspend fun getUserProfile(targetId: String, userId: String): ProfileResponse? {
-        val targetUser = repository.getUserById(targetId)
+        val targetUser = userRepository.getUserById(targetId)
         val isOwnProfile = targetUser?.id == userId
-        return targetUser?.let { ProfileResponse.fromUserEntity(it, isOwnProfile) }
+        val isFollowed = if (isOwnProfile) {
+            null
+        } else {
+            val followedByUser = followingRepository.getUserFollows(userId)
+            followedByUser.find { it.followedUserId == targetId } != null
+        }
+        return targetUser?.let {
+            ProfileResponse.fromUserEntity(
+                it,
+                isOwnProfile,
+                isFollowed
+            )
+        }
     }
 
     /**
@@ -41,7 +57,7 @@ class UserService(private val repository: UserRepository) {
         profileImageInternalPath: String?,
         clearCallback: suspend (UserEntity) -> Unit = {}
     ): Boolean {
-        val oldUserEntity = repository.getUserById(userId)
+        val oldUserEntity = userRepository.getUserById(userId)
         val newUser = oldUserEntity?.copy(
             username = request.username,
             githubUrl = request.githubUrl,
@@ -53,7 +69,7 @@ class UserService(private val repository: UserRepository) {
             profileImageInternalPath = profileImageInternalPath ?: oldUserEntity.profileImageInternalPath
         )
         val updated = newUser?.let { user ->
-            if (repository.updateUser(userId, user)) {
+            if (userRepository.updateUser(userId, user)) {
                 clearCallback(oldUserEntity)
                 true
             } else false

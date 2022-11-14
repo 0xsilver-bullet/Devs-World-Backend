@@ -14,6 +14,7 @@ class ActivityRepositoryImpl(db: CoroutineDatabase) : ActivityRepository {
     override suspend fun getActivitiesForUser(userId: String): List<Activity> {
         return activitiesCollection
             .find(ActivityEntity::ownerId eq userId)
+            .descendingSort(ActivityEntity::timestamp)
             .toList()
             .map { Activity.fromActivityEntity(it) }
     }

@@ -21,4 +21,9 @@ interface LikesRepository {
 
     suspend fun likesCount(parentId: String): Long
 
+    suspend fun isParentLikedByUser(
+        parentId: String,
+        userId: String
+    ): Boolean
+
 }

@@ -24,11 +24,11 @@ val servicesModule = module {
     }
 
     single {
-        UserService(get())
+        UserService(get(),get())
     }
 
     single {
-        PostService(get(), get(),get(),get())
+        PostService(get(), get(), get(), get())
     }
 
     single {
@@ -48,6 +48,6 @@ val servicesModule = module {
     }
 
     single {
-        SearchService(get())
+        SearchService(get(), get())
     }
 }

@@ -129,6 +129,16 @@ class LikesRepositoryImpl(db: CoroutineDatabase) : LikesRepository {
             .countDocuments(LikeEntity::parentId eq parentId)
     }
 
+    override suspend fun isParentLikedByUser(parentId: String, userId: String): Boolean {
+        return likesCollection
+            .findOne(
+                and(
+                    LikeEntity::parentId eq parentId,
+                    LikeEntity::userId eq userId
+                )
+            ) != null
+    }
+
     private suspend fun createLikeActivity(
         ownerId: String,
         issuerId: String,

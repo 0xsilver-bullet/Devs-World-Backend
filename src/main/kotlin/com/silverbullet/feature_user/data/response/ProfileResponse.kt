@@ -5,10 +5,12 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ProfileResponse(
+    val id: String,
     val email: String,
     val username: String,
     val bio: String = "",
     val isOwnProfile: Boolean,
+    val isFollowed: Boolean?,
     val followingCount: Int,
     val followersCount: Int,
     val postsCount: Int,
@@ -20,12 +22,18 @@ data class ProfileResponse(
 ) {
     companion object {
 
-        fun fromUserEntity(userEntity: UserEntity, isOwnProfile: Boolean): ProfileResponse {
+        fun fromUserEntity(
+            userEntity: UserEntity,
+            isOwnProfile: Boolean,
+            isFollowed: Boolean?
+        ): ProfileResponse {
             return ProfileResponse(
+                id = userEntity.id,
                 email = userEntity.email,
                 username = userEntity.username,
                 bio = userEntity.bio,
                 isOwnProfile = isOwnProfile,
+                isFollowed = isFollowed,
                 followingCount = userEntity.followingCount,
                 followersCount = userEntity.followersCount,
                 postsCount = userEntity.postsCount,

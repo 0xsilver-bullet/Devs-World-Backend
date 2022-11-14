@@ -11,16 +11,24 @@ plugins {
     application
     kotlin("jvm") version "1.7.21"
     id("io.ktor.plugin") version "2.1.3"
-                id("org.jetbrains.kotlin.plugin.serialization") version "1.7.21"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.7.21"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "com.silverbullet"
 version = "0.0.1"
+
 application {
-    mainClass.set("io.ktor.server.netty.EngineMain")
+    mainClass.set("com.silverbullet.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+}
+
+ktor{
+    fatJar{
+        archiveFileName.set("devs-world.jar")
+    }
 }
 
 repositories {
@@ -56,4 +64,10 @@ dependencies {
 
     // Codec
     implementation("commons-codec:commons-codec:$commons_codec_version")
+}
+
+tasks.withType<Jar>() {
+    manifest {
+        attributes["Main-Class"] = application.mainClass
+    }
 }
