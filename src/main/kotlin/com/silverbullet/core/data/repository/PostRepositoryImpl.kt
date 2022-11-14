@@ -6,6 +6,7 @@ import com.silverbullet.core.data.interfaces.PostRepository
 import com.silverbullet.utils.CollectionNames
 import org.litote.kmongo.coroutine.CoroutineDatabase
 import org.litote.kmongo.eq
+import org.litote.kmongo.`in`
 import org.litote.kmongo.setValue
 
 class PostRepositoryImpl(db: CoroutineDatabase) : PostRepository {
@@ -33,6 +34,20 @@ class PostRepositoryImpl(db: CoroutineDatabase) : PostRepository {
     ): List<PostEntity> {
         return postsCollection
             .find(PostEntity::userId eq userId)
+            .skip(skip = (page - 1) * offset)
+            .limit(offset)
+            .partial(true)
+            .descendingSort(PostEntity::timestamp)
+            .toList()
+    }
+
+    override suspend fun getUsersPosts(
+        usersIds: List<String>,
+        page: Int,
+        offset: Int
+    ): List<PostEntity> {
+        return postsCollection
+            .find(PostEntity::userId `in` usersIds)
             .skip(skip = (page - 1) * offset)
             .limit(offset)
             .partial(true)

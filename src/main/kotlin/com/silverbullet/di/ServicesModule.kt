@@ -28,7 +28,7 @@ val servicesModule = module {
     }
 
     single {
-        PostService(get(), get(), get(), get())
+        PostService(get(), get(), get(), get(),get())
     }
 
     single {

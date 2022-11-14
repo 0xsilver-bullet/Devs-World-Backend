@@ -12,4 +12,10 @@ interface PostRepository {
         offset: Int
     ): List<PostEntity>
 
+    suspend fun getUsersPosts(
+        usersIds: List<String>,
+        page: Int,
+        offset: Int
+    ): List<PostEntity>
+
 }

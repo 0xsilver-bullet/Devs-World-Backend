@@ -8,5 +8,6 @@ fun Route.configurePostRoutes() {
 
         createPostRoute()
         allPostsRoute()
+        feedRoute()
     }
 }
